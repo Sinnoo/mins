@@ -4,6 +4,7 @@ namespace core;
 
 class mins 
 {
+    #类集合
     public static $classMap = [];
 
     /*
@@ -15,9 +16,27 @@ class mins
     static public function run()
     {
         #路由
-        $route = new \core\route();
+        $route = new \core\lib\route();
+
+        #自动执行到位到方法
+        $ctrlClass = $route->ctrl;
+        $action = $route->action;
+        $ctrlFile = APP. 'ctrl/' .$ctrlClass. 'Ctrl.php';
+        $ctrlClass = MODULE. 'ctrl\\' .$ctrlClass. 'Ctrl';
+        if (is_file($ctrlFile)) {
+            include $ctrlFile;
+            $ctrl = new $ctrlClass();
+            $ctrl->$action();
+        } else {
+            throw new \Exception ('no actions');
+        }
     }
 
+    /*
+     * 自动加载类
+     *
+     * @return mix
+     */
     static public function load($class)
     {
         #自动加载类

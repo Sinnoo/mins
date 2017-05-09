@@ -4,9 +4,14 @@
  * 加载函数类,启动框架
  * @date 08/05/17 15:42:24
  */
+#根目录
 define("MINS", realpath('./'));
+#核心类
 define("CORE", MINS.'/core/');
+#项目目录
 define("APP", MINS.'/app/');
+define("MODULE", '\\app\\');
+#调试开启
 define("DEBUG", true);
 
 if (DEBUG) {
