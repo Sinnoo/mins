@@ -7,6 +7,9 @@ class mins
     #类集合
     public static $classMap = [];
 
+    #接收变量
+    public $assign;
+
     /*
      * 框架启动
      * 引入各种类文件
@@ -50,6 +53,32 @@ class mins
             } else {
                 return false;
             }
+        }
+    }
+
+    /*
+     * 渲染
+     *
+     * @return data
+     */
+    public function assign($name, $value)
+    {
+        $this->assign[$name] = $value;
+    }
+
+    /*
+     * 模板文件
+     *
+     * @return bool
+     */
+    public function tpl($file)
+    {
+        $file = APP. 'views/' . $file;
+        if (is_file($file)) {
+            extract($this->assign);
+            include $file;
+        } else {
+            throw new \Exception ('no fils');
         }
     }
 }
