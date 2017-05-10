@@ -1,7 +1,13 @@
 <?php
 
 namespace core\lib;
+use core\lib\conf;
 
+/*
+ * 路由类
+ *
+ * 自动转化url到对应控制器
+ */
 class route
 {
     public $ctrl;
@@ -38,8 +44,8 @@ class route
                 $i++;
             }
         } else {
-            $this->ctrl = 'index';
-            $this->action = 'index';
+            $this->ctrl = conf::get('CTRL', 'route');
+            $this->action = conf::get('ACTION', 'route');;
         }
     }
 }

@@ -2,7 +2,13 @@
 
 namespace core\lib;
 use core\biz;
+use core\lib\conf;
 
+/*
+ * 模型类
+ *
+ * 连接数据库
+ */
 class model extends \PDO
 {
     private $config;
@@ -12,7 +18,13 @@ class model extends \PDO
         if (is_file($biz)) {
             include $biz;
         } else {
-            throw new \Exception ('no files');
+            #默认暂时只支持mysql
+            $conf = conf::getAll('dsn');
+            if (is_array($conf)) {
+                return $this->connMysql($conf);
+            } else {
+                throw new \Exception ('no files');
+            }
         }
 
         $this->config = $config;
@@ -23,11 +35,6 @@ class model extends \PDO
         } else {
             throw new \Exception ('no files');
         }
-        var_d($config);exit;
-        $dsn = 'mysql:host=127.0.0.1;dbname=songmingshuo';
-        $username = 'songmingshuo';
-        $psw = '123456';
-
     }
 
     /*

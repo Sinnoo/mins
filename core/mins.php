@@ -18,6 +18,11 @@ class mins
      */
     static public function run()
     {
+
+        #内容,文件名
+        \core\lib\log::init();
+        \core\lib\log::log($_SERVER, 'server');
+
         #路由
         $route = new \core\lib\route();
 
@@ -30,6 +35,7 @@ class mins
             include $ctrlFile;
             $ctrl = new $ctrlClass();
             $ctrl->$action();
+            \core\lib\log::log('ctrl:'.$ctrlClass.'------action:'.$action, 'operate');
         } else {
             throw new \Exception ('no actions');
         }
