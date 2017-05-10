@@ -6,6 +6,8 @@ class indexCtrl extends \core\mins
 {
     public function index()
     {
+        $temp = \core\lib\conf::get('CTRL', 'route');
+        var_d($temp);
         $table = new people();
         $model = new \core\lib\model();
         $sql = "select * from people";
