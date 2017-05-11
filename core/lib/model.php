@@ -9,7 +9,7 @@ use core\lib\conf;
  *
  * 连接数据库
  */
-class model extends \PDO
+class model extends \Medoo\Medoo
 {
     private $config;
     public function __construct()
@@ -45,8 +45,20 @@ class model extends \PDO
     protected function connMysql($config)
     {
         $biz = $config;
+
+        #继承medoo
+        $dasename = explode('=', explode(';', $biz['dsn'])[1])[1];
+        $dsn = explode('=', explode(';', $biz['dsn'])[0])[1];
+        $option = [
+            'database_type' => 'mysql',
+            'database_name' => $dasename,
+            'server' => $dsn,
+            'username' => $biz['username'],
+            'password' => $biz['psw'],
+            'charset' => 'utf8',
+        ];
         try {
-            parent::__construct($biz['dsn'], $biz['username'], $biz['psw']);
+            parent::__construct($option);
         } catch (\PDOException $e) {
             throw new \Exception($e->getMessage());
         }

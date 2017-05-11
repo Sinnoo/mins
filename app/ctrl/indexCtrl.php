@@ -1,22 +1,17 @@
 <?php
 namespace app\ctrl;
 use app\biz\people;
+use core\lib\model;
 
 class indexCtrl extends \core\mins
 {
     public function index()
     {
-        $temp = \core\lib\conf::get('CTRL', 'route');
-        var_d($temp);
-        $table = new people();
-        $model = new \core\lib\model();
-        $sql = "select * from people";
-        $res = $model->query($sql);
-        var_d($res->fetchAll());
-        
-        $data = 'hello word';
-        $this->assign('data', $data);
-        $this->tpl('index.html');
+        $model = new medoo();
+        $c = $model->select('people', '*');
+        var_d($c);exit;
+        //$this->assign('data', $data);
+        //$this->tpl('index.html');
     }
 }
 

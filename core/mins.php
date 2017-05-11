@@ -22,7 +22,6 @@ class mins
         #内容,文件名
         \core\lib\log::init();
         \core\lib\log::log($_SERVER, 'server');
-
         #路由
         $route = new \core\lib\route();
 
