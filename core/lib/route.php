@@ -31,7 +31,8 @@ class route
             }
             if (isset($patharr[1])) {
                 $this->action = $patharr[1];
-            }
+            } else {
+            }  
 
             #get参数
             $count = count($params);

@@ -28,8 +28,8 @@ class mins
         #自动执行到位到方法
         $ctrlClass = $route->ctrl;
         $action = $route->action;
-        $ctrlFile = APP. 'ctrl/' .$ctrlClass. 'Ctrl.php';
-        $ctrlClass = MODULE. 'ctrl\\' .$ctrlClass. 'Ctrl';
+        $ctrlFile = APP. 'ctrl/' .$ctrlClass. '.php';
+        $ctrlClass = MODULE. 'ctrl\\' .$ctrlClass;
         if (is_file($ctrlFile)) {
             include $ctrlFile;
             $ctrl = new $ctrlClass();
@@ -78,7 +78,7 @@ class mins
      */
     public function tpl($file)
     {
-        $file = APP. 'views/' . $file;
+        $file = APP. 'views/' . $file .'.html';
         if (is_file($file)) {
             extract($this->assign);
             include $file;

@@ -932,7 +932,7 @@ class Medoo
 	}
 
 	protected function columnMap($columns, &$stack)
-	{
+    {
 		foreach ($columns as $key => $value)
 		{
 			if (is_int($key))
@@ -1032,9 +1032,8 @@ class Medoo
 		{
 			return false;
 		}
-
 		if ($columns === '*')
-		{
+        {
 			return $query->fetchAll(PDO::FETCH_ASSOC);
 		}
 
@@ -1052,7 +1051,7 @@ class Medoo
 			$stack[ $index ] = $current_stack;
 
 			$index++;
-		}
+        }
 
 		return $stack;
 	}
