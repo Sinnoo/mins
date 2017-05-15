@@ -4,10 +4,10 @@ namespace core;
 
 class mins 
 {
-    #类集合
+    //类集合
     public static $classMap = [];
 
-    #接收变量
+    //接收变量
     public $assign;
 
     /*
@@ -78,10 +78,18 @@ class mins
      */
     public function tpl($file)
     {
+        $template = $file;
         $file = APP. 'views/' . $file .'.html';
         if (is_file($file)) {
-            extract($this->assign);
-            include $file;
+
+            //加载模板
+            require_once MINS. '/vendor/autoload.php';
+            $loader = new \Twig_Loader_Filesystem(APP. 'views');
+            $twig = new \Twig_Environment($loader, array(
+                    /* 'cache' => './compilation_cache', */
+                ));
+            $template = $twig->loadTemplate($template. '.html');
+            $template->display($this->assign ? : 'error');
         } else {
             throw new \Exception ('no fils');
         }

@@ -2,7 +2,7 @@
 /*!
  * Medoo database framework
  * https://medoo.in
- * Version 1.4
+ * Version 1.4.1
  *
  * Copyright 2017, Angel Lai
  * Released under the MIT license
@@ -29,8 +29,7 @@ class Medoo
 	protected $debug_mode = false;
 
 	public function __construct($options = null)
-    {
-
+	{
 		try {
 			if (is_array($options))
 			{
@@ -273,7 +272,7 @@ class Medoo
 		return $this->exec($query, $map);
 	}
 
-	public function exec($query, $map)
+	public function exec($query, $map = [])
 	{
 		if ($this->debug_mode)
 		{
@@ -932,7 +931,12 @@ class Medoo
 	}
 
 	protected function columnMap($columns, &$stack)
-    {
+	{
+		if ($columns === '*')
+		{
+			return $stack;
+		}
+
 		foreach ($columns as $key => $value)
 		{
 			if (is_int($key))
@@ -1032,8 +1036,9 @@ class Medoo
 		{
 			return false;
 		}
+
 		if ($columns === '*')
-        {
+		{
 			return $query->fetchAll(PDO::FETCH_ASSOC);
 		}
 
@@ -1051,7 +1056,7 @@ class Medoo
 			$stack[ $index ] = $current_stack;
 
 			$index++;
-        }
+		}
 
 		return $stack;
 	}
