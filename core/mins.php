@@ -4,8 +4,11 @@ namespace core;
 
 class mins 
 {
-    #类集合
+    //类集合
     public static $classMap = [];
+
+    //接收变量
+    public $assign;
 
     /*
      * 框架启动
@@ -15,18 +18,23 @@ class mins
      */
     static public function run()
     {
+
+        #内容,文件名
+        \core\lib\log::init();
+        \core\lib\log::log($_SERVER, 'server');
         #路由
         $route = new \core\lib\route();
 
         #自动执行到位到方法
         $ctrlClass = $route->ctrl;
         $action = $route->action;
-        $ctrlFile = APP. 'ctrl/' .$ctrlClass. 'Ctrl.php';
-        $ctrlClass = MODULE. 'ctrl\\' .$ctrlClass. 'Ctrl';
+        $ctrlFile = APP. 'ctrl/' .$ctrlClass. '.php';
+        $ctrlClass = MODULE. 'ctrl\\' .$ctrlClass;
         if (is_file($ctrlFile)) {
             include $ctrlFile;
             $ctrl = new $ctrlClass();
             $ctrl->$action();
+            \core\lib\log::log('ctrl:'.$ctrlClass.'------action:'.$action, 'operate');
         } else {
             throw new \Exception ('no actions');
         }
@@ -50,6 +58,40 @@ class mins
             } else {
                 return false;
             }
+        }
+    }
+
+    /*
+     * 渲染
+     *
+     * @return data
+     */
+    public function assign($name, $value)
+    {
+        $this->assign[$name] = $value;
+    }
+
+    /*
+     * 模板文件
+     *
+     * @return bool
+     */
+    public function tpl($file)
+    {
+        $template = $file;
+        $file = APP. 'views/' . $file .'.html';
+        if (is_file($file)) {
+
+            //加载模板
+            require_once MINS. '/vendor/autoload.php';
+            $loader = new \Twig_Loader_Filesystem(APP. 'views');
+            $twig = new \Twig_Environment($loader, array(
+                    /* 'cache' => './compilation_cache', */
+                ));
+            $template = $twig->loadTemplate($template. '.html');
+            $template->display($this->assign ? : 'error');
+        } else {
+            throw new \Exception ('no fils');
         }
     }
 }

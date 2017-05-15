@@ -14,12 +14,17 @@ define("MODULE", '\\app\\');
 #调试开启
 define("DEBUG", true);
 
+#加载whoops错误调试
+include "vendor/autoload.php";
+
 if (DEBUG) {
+    $whoops = new \Whoops\Run;
+    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
+    $whoops->register();
     ini_set('display_error', true);
 } else {
     ini_set('display_error', false);
 }
-
 include CORE. 'common/basis.php';
 include CORE. 'mins.php';
 

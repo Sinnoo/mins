@@ -1,7 +1,13 @@
 <?php
 
 namespace core\lib;
+use core\lib\conf;
 
+/*
+ * 路由类
+ *
+ * 自动转化url到对应控制器
+ */
 class route
 {
     public $ctrl;
@@ -25,7 +31,8 @@ class route
             }
             if (isset($patharr[1])) {
                 $this->action = $patharr[1];
-            }
+            } else {
+            }  
 
             #get参数
             $count = count($params);
@@ -38,8 +45,8 @@ class route
                 $i++;
             }
         } else {
-            $this->ctrl = 'index';
-            $this->action = 'index';
+            $this->ctrl = conf::get('CTRL', 'route');
+            $this->action = conf::get('ACTION', 'route');;
         }
     }
 }
