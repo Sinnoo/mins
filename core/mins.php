@@ -27,9 +27,15 @@ class mins
 
         #自动执行到位到方法
         $ctrlClass = $route->ctrl;
+        if (is_array($ctrlClass)) {
+            $file = self::ctrlToStr($ctrlClass);
+            $class = self::ctrlToStr($ctrlClass, 'class');
+        }
         $action = $route->action;
-        $ctrlFile = APP. 'ctrl/' .$ctrlClass. '.php';
-        $ctrlClass = MODULE. 'ctrl\\' .$ctrlClass;
+        $ctrlFile = APP. 'ctrl/' .$file. '.php';
+
+
+        $ctrlClass = MODULE. 'ctrl\\' .$class;
         if (is_file($ctrlFile)) {
             include $ctrlFile;
             $ctrl = new $ctrlClass();
@@ -38,6 +44,30 @@ class mins
         } else {
             throw new \Exception ('no actions');
         }
+    }
+
+    /*
+     * 如果多级目录,则将数组转化为字符串
+     *
+     * @return str
+     */
+    static protected function ctrlToStr($arr, $type = 'file')
+    {
+        $str = '';
+        if (is_array($arr) && $type == 'file') {
+            foreach ($arr as $key => $val) {
+                $str = $str . $val . '/';
+            }
+            $str = trim($str, '/');
+        } elseif (is_array($arr) && $type == 'class') {
+            foreach ($arr as $key => $val) {
+                $str = $str . $val . '\\';
+            }
+            $str = trim($str, '\\');
+        } else {
+            throw new \Exception ('no arrays');
+        }
+        return $str;
     }
 
     /*

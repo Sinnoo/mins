@@ -26,13 +26,23 @@ class route
         
         if (isset($url) && $url != null) {
             $patharr = explode('.', trim($url));
-            if (isset($patharr[0])) {
-                $this->ctrl = $patharr[0];
-            }
-            if (isset($patharr[1])) {
-                $this->action = $patharr[1];
+            if (count($patharr) >= 3) {
+                //多级目录
+                $ctrls = $patharr;
+                unset($ctrls[count($patharr)-1]);
+
+                $this->ctrl = $ctrls;
+                $this->action = end($patharr);
             } else {
-            }  
+                //单层目录
+                if (isset($patharr[0])) {
+                    $this->ctrl = $patharr[0];
+                }
+                if (isset($patharr[1])) {
+                    $this->action = $patharr[1];
+                } else {
+                }  
+            }
 
             #get参数
             $count = count($params);

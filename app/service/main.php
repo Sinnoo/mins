@@ -5,17 +5,26 @@ namespace app\service;
 use core\lib\model;
 use app\biz\people;
 
-class test extends model
+class main extends model
 {
+    /*
+     * 获取列表数据
+     *
+     * @return mix
+     */
     public function lists()
     {
         $res = $this->select($this->table, ['name', 'year']);
         return $res;
     }
 
+    /*
+     * 获取单个数据
+     *
+     * @return mix
+     */
     public function getOne()
     {
-        //表
         $biz = new people();
 
         $res = $this->get($biz->table, ['name'], ['year' => 24]);

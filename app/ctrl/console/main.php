@@ -1,5 +1,5 @@
 <?php
-namespace app\ctrl;
+namespace app\ctrl\console;
 
 use app\biz\people;
 use core\lib\model;
@@ -13,7 +13,7 @@ class main extends \core\mins
      */
     public function index()
     {
-        $model = new \app\service\test();
+        $model = new \app\service\main();
         $res = $model->getOne();
         $this->assign('data', '您好!');
         $this->tpl('main');
